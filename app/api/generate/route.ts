@@ -2,7 +2,8 @@ import OpenAI from 'openai';
 import { NextRequest, NextResponse } from 'next/server';
 
 const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.GROQ_API_KEY,
+  baseURL: 'https://api.groq.com/openai/v1',
 });
 
 export async function POST(req: NextRequest) {
@@ -10,27 +11,24 @@ export async function POST(req: NextRequest) {
     const { question, rules } = await req.json();
 
     const prompt = `
-Write a complete academic answer in formal third-person language.
+    Write a complete academic assignment answer.
 
-Requirements:
-- Use Calibri font formatting principles.
-- Main headings: 16 pt.
-- Subheadings: 14 pt.
-- Body text: 11 pt.
-- Include APA 7 references if sources are used.
-- Highlight important points using bold markers.
-- Follow all user instructions.
-- Human-like, natural academic writing.
+    Requirements:
+    - Use formal third-person language.
+    - Use clear headings and subheadings.
+    - Highlight important points in bold.
+    - Include APA 7 references when appropriate.
+    - Follow all instructions provided.
 
-Assignment Question:
-${question}
+    Assignment Question:
+    ${question}
 
-Instructions:
-${rules}
-`;
+    Instructions:
+    ${rules}
+    `;
 
     const response = await client.chat.completions.create({
-      model: 'gpt-4.1-mini',
+      model: 'llama-3.3-70b-versatile',
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.4,
     });

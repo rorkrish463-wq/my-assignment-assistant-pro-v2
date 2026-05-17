@@ -1,7 +1,4 @@
-export const metadata = {
-  title: 'Assignment Assistant',
-};
-
+export const metadata = { title: 'Free Assignment Assistant' };
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
